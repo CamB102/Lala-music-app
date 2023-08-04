@@ -8,7 +8,7 @@ const activeStyle = 'py-2 px-[25px] text-[#f0f4f8] text-[13px] font-bold flex ga
 
 const SidebarLeft = () => {
   return (
-    <div className='flex flex-col bg-[#231b2e]'>
+    <div className='flex h-full flex-col bg-main-200'>
       <div className='w-full h-[70px] py-[15px] px-[25px] flex justify-start items-center'>
         <img src={logo} alt="Lala-logo" />
         {/* className='w-[128px] h-10' */}

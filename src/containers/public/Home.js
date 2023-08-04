@@ -9,7 +9,7 @@ const Home = () => {
         const fetchDataHome = async() => {
             // used Promise() so await until it finished
             const response = await apis.getHome()
-            console.log(response)
+            // console.log(response)
         }
         fetchDataHome()
     }, [])

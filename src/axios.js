@@ -1,5 +1,6 @@
 import axios from "axios"
-console.log(process.env.REACT_APP_SERVER_URL)
+// console.log(process.env.REACT_APP_SERVER_URL)
+// https://api-zingmp3-vercel.vercel.app/api
 
 const instance = axios.create({
   baseURL: process.env.REACT_APP_SERVER_URL,
