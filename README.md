@@ -1,70 +1,42 @@
-# Getting Started with Create React App
+# Lala - Music Web Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Lala allows users to stream music from a vast collection of songs across different genres. It offers a user-friendly interface with personalized playlists, and charts, and also provides artist information.
 
-## Available Scripts
+## Project Process
 
-In the project directory, you can run:
+### Lala first draft
+![Lala-draft1](https://github.com/CamB102/zing-box-react-project/assets/120146979/f8a66aad-09ee-4007-ad9d-7f8d62fe5286)
 
-### `yarn start`
+### Lala - Search bar & Navigation
+![Screenshot 2023-08-02 at 1 52 23 pm](https://github.com/CamB102/zing-box-react-project/assets/120146979/5891b13b-3abc-4280-9404-39f3721336d9)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Lala - Banner - Music Player Layout
+![Screenshot 2023-08-03 at 6 02 41 pm](https://github.com/CamB102/zing-box-react-project/assets/120146979/96f3b45d-cda9-4e7f-b1b1-cca304122382)
 
-### `yarn test`
+### Lala - Playlist - player
+![Screenshot 2023-08-07 at 8 51 07 pm](https://github.com/CamB102/Lala-music-app/assets/120146979/865c2734-f05a-4b92-815d-e893a17c8022)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### components: 
+Public
+SideBarLeft
+SideBarRight
+Search
+MusicPlayer
+Banner
+AllSongsDisplay
 
-### `yarn build`
+### React hooks:
+useState, useEffect, useRef
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### React Routers:
+BrowserRouters, Routers, Route, Link
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Redux:
+store, action, reducer,
+useSelector, useDispatch
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### tailwind
 
-### `yarn eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
