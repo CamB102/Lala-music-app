@@ -6,19 +6,19 @@ import { Scrollbars } from 'react-custom-scrollbars'
 
 const Public = () => {
     return(
-        <div className='w-full relative h-screen flex flex-col bg-main-300'>
+        <div className='w-full relative h-screen flex flex-col bg-main-400'>
             <div className='w-full h-full flex flex-auto '>
-                <div className='w-[240px] h-full flex-none border border-blue-500'>
+                <div className='w-[240px] h-full flex-none '>
                     <SidebarLeft />
                 </div>
-                <div className='flex-auto border border-red-500'>
+                <div className='flex-auto '>
                     <div className='h-[70px] px-[59px] flex items-center'>
-                        <Header />
+                        {/* <Header /> */}
                     </div>
                     <Outlet/>
                     {/* <div className='w-full h-[500px]'></div> */}
                 </div>
-                <div className='w-[329px] hidden 1600:flex flex-none border border-green-500 animate-slide-left'>
+                <div className='w-[329px] hidden 1600:flex flex-none animate-slide-left  bg-main-400'>
                     <SidebarRight />
                 </div>
             </div>

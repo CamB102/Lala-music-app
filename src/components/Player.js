@@ -56,7 +56,7 @@ const Player = () => {
     audio.pause()
     audio.load()
     audio.currentTime = 0
-    if (isPlaying){
+    if (isPlaying && thumbRef){
       audio.play()
       intervalId = setInterval(() => {
         let percent = Math.round(audio.currentTime*10000 / songInfo.duration) / 100
@@ -65,6 +65,14 @@ const Player = () => {
       }, 200)
     }
   }, [audio, isPlaying])
+
+  useEffect(() => {
+    if (isShuffle){
+
+    } else {
+
+    }
+  }, [isShuffle])
 
   const handleTogglePlayMusic = () => {
       if (isPlaying){
@@ -86,7 +94,6 @@ const Player = () => {
       audio.currentTime = percent * songInfo.duration / 100
       setCurSeconds(Math.round(percent * songInfo.duration / 100))
     }
-
     
     const handlePrevSong = () => {
       if (songs){
@@ -161,7 +168,7 @@ const Player = () => {
           <div className='w-full flex justify-center items-center gap-3 text-xs'>
             <span className=''>{moment.utc(curSeconds*1000).format('mm:ss')}</span>
             <div 
-            className='w-3/5 hover:h-[5px] cursor-pointer h-[3px] rounded-l-full rounded-r-full relative bg-gray-500'
+            className='w-3/5 hover:h-[6px] cursor-pointer h-[3px] rounded-l-full rounded-r-full relative bg-gray-500'
             onClick={handleProgressBar}
             ref={trackRef}>
               <div ref={thumbRef} className='absolute top-0 left-0 bottom-0 cursor-pointer bg-main-500 rounded-l-full rounded-r-full'></div>
@@ -169,8 +176,8 @@ const Player = () => {
             <span>{moment.utc(songInfo?.duration*1000).format('mm:ss')}</span>
           </div>
         </div>
-        <div className='w-[30%] flex-auto border border-red-200'>
-            Volume
+        <div className='w-[30%] flex-auto'>
+            {/* Volume */}
         </div>
     </div>
   )
