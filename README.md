@@ -17,6 +17,9 @@ Lala allows users to stream music from a vast collection of songs across differe
 ### Lala - Playlist - player
 ![Screenshot 2023-08-07 at 8 51 07 pm](https://github.com/CamB102/Lala-music-app/assets/120146979/865c2734-f05a-4b92-815d-e893a17c8022)
 
+### Lala - Playlist - update Homepage
+![Screenshot 2023-08-10 at 4 51 54 pm](https://github.com/CamB102/Lala-music-app/assets/120146979/f7cd7139-267e-419e-ac94-5f200a1f2d88)
+
 ### components: 
 Public
 SideBarLeft
