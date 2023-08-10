@@ -4,9 +4,6 @@ Lala allows users to stream music from a vast collection of songs across differe
 
 ## Project Process
 
-### Lala first draft
-![Lala-draft1](https://github.com/CamB102/zing-box-react-project/assets/120146979/f8a66aad-09ee-4007-ad9d-7f8d62fe5286)
-
 ### Lala - Search bar & Navigation
 ![Screenshot 2023-08-02 at 1 52 23 pm](https://github.com/CamB102/zing-box-react-project/assets/120146979/5891b13b-3abc-4280-9404-39f3721336d9)
 
