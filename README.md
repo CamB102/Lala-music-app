@@ -20,17 +20,9 @@ Lala allows users to stream music from a vast collection of songs across differe
 
 
 
-### components: 
-Public
-SideBarLeft
-SideBarRight
-Search
-MusicPlayer
-Banner
-AllSongsDisplay
 
 ### React hooks:
-useState, useEffect, useRef
+useState, useEffect, useRef, useNavigate
 
 ### React Routers:
 BrowserRouters, Routers, Route, Link
