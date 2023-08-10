@@ -11,11 +11,12 @@ const {AiFillHeart, AiOutlineHeart, BsThreeDots, CiRepeat, MdSkipPrevious,
 
 var intervalId  
 const Player = () => {
-  const{curSongId, isPlaying} = useSelector(state => state.music) // key of musicReducer is music
+  const{curSongId, isPlaying, songs} = useSelector(state => state.music) // key of musicReducer is music
   // when current songId changed, songId will be sent to Redux -> curSongId will be updated, the triger the function in useEffect
   const [songInfo, setSongInfo] = useState(null)
   const [audio, setAudio] = useState(new Audio())
   const [curSeconds, setCurSeconds] = useState(0)
+  const [isShuffle, setIsShuffle] = useState(false)
   const dispatch = useDispatch()
   const thumbRef = useRef()
   const trackRef = useRef()
@@ -26,7 +27,7 @@ const Player = () => {
                 apis.apiGetDetailSong(curSongId),
                 apis.apiGetSong(curSongId)
             ])
-            console.log(res1.data.err)
+            //console.log(res1.data.err)
             
             if (res1.data.err === 0) {
                 setSongInfo(res1.data.data)
@@ -35,6 +36,7 @@ const Player = () => {
                 audio.pause()
                 setAudio(new Audio(res2.data.data['128']))
             } else {
+                //audio.pause()
                 setAudio(new Audio())
                 dispatch(actions.play(false))
                 toast.warn(res2.data.msg)
@@ -60,9 +62,9 @@ const Player = () => {
         let percent = Math.round(audio.currentTime*10000 / songInfo.duration) / 100
         thumbRef.current.style.cssText = `right: ${100 - percent}%`
         setCurSeconds(Math.round(audio.currentTime))
-      }, 100)
-    } 
-  }, [audio])
+      }, 200)
+    }
+  }, [audio, isPlaying])
 
   const handleTogglePlayMusic = () => {
       if (isPlaying){
@@ -73,16 +75,49 @@ const Player = () => {
         dispatch(actions.play(true))
       }
     }
-    const handleProgressBar = (e) => {
-      console.log(e)
+  const handleProgressBar = (e) => {
+      // console.log(e)
       const trackRect = trackRef.current.getBoundingClientRect()
-      console.log(trackRect)
+      // console.log(trackRect)
       const percent = Math.round((e.clientX - trackRect.left)*10000 / trackRect.width)/100
-      console.log(trackRect.width)
-      console.log(percent)
+      // console.log(trackRect.width)
+      // console.log(percent)
       thumbRef.current.style.cssText = `right: ${100 - percent}%`
       audio.currentTime = percent * songInfo.duration / 100
       setCurSeconds(Math.round(percent * songInfo.duration / 100))
+    }
+
+    
+    const handlePrevSong = () => {
+      if (songs){
+        let currentSongIndex
+        songs?.forEach((item, index) => {
+          if (item.encodeId === curSongId) currentSongIndex = index
+        })
+        //console.log(currentSongIndex)
+        dispatch(actions.setCurSongId(songs[currentSongIndex - 1].encodeId))
+        dispatch(actions.play(true))
+      }
+    }
+
+    const handleNextSong = () => {
+      if (songs){
+        let currentSongIndex
+        songs?.forEach((item, index) => {
+          if (item.encodeId === curSongId) currentSongIndex = index
+        })
+        //console.log(currentSongIndex)
+        dispatch(actions.setCurSongId(songs[currentSongIndex + 1].encodeId))
+        dispatch(actions.play(true))
+      }
+    }
+
+    const handleShuffle = () => {
+      const randomIndex = Math.round(Math.random() * songs?.length-1)
+      setIsShuffle(prev => !prev)
+      dispatch(actions.setCurSongId(songs[randomIndex].encodeId))
+      dispatch(actions.play(true))
+
     }
 
 
@@ -103,26 +138,33 @@ const Player = () => {
               </span>
             </div>
         </div>
-        <div className='w-[40%] flex-auto border flex flex-col gap-2 items-center justify-center border-red-200 py-2'>
+        <div className='w-[40%] flex-auto flex flex-col gap-2 items-center justify-center py-2'>
           <div className='flex gap-8 justify-center items-center'>
-            <span title='Shuffle' className='cursor-pointer'><CiShuffle size={24}/></span>
-            <span className='cursor-pointer'><MdSkipPrevious size={24}/></span>
             <span 
-            className='p-1 border border-gray-200 cursor-pointer hover:text-main-500 rounded-full'
+            title='Shuffle' 
+            className={`cursor-pointer ${isShuffle && 'text-main-500'}`}
+            onClick={handleShuffle}>
+              <CiShuffle size={24}/>
+            </span>
+            <span 
+            className={`${!songs ? 'text-gray-700' : 'cursor-pointer'}`}
+            onClick={handlePrevSong}><MdSkipPrevious size={24}/></span>
+            <span 
+            className='p-1 cursor-pointer hover:text-main-500 rounded-full'
             onClick={handleTogglePlayMusic}
-            ref={trackRef}
             >
             {isPlaying ? <BsPauseFill size={30}/> : <BsFillPlayFill size={30} />}
             </span>
-            <span className='cursor-pointer'><MdSkipNext size={24}/></span>
+            <span onClick={handleNextSong} className={`${!songs ? 'text-gray-700' : 'cursor-pointer'}`}><MdSkipNext size={24}/></span>
             <span title="Repeat" className='cursor-pointer'><CiRepeat size={24}/></span>
           </div>
           <div className='w-full flex justify-center items-center gap-3 text-xs'>
-            <span>{moment.utc(curSeconds*1000).format('mm:ss')}</span>
+            <span className=''>{moment.utc(curSeconds*1000).format('mm:ss')}</span>
             <div 
             className='w-3/5 hover:h-[5px] cursor-pointer h-[3px] rounded-l-full rounded-r-full relative bg-gray-500'
-            onClick={handleProgressBar}>
-              <div ref={thumbRef} className='absolute top-0 left-0 bottom-0 cursor-pointer h-[3px] bg-main-500 rounded-l-full rounded-r-full'></div>
+            onClick={handleProgressBar}
+            ref={trackRef}>
+              <div ref={thumbRef} className='absolute top-0 left-0 bottom-0 cursor-pointer bg-main-500 rounded-l-full rounded-r-full'></div>
             </div>
             <span>{moment.utc(songInfo?.duration*1000).format('mm:ss')}</span>
           </div>
