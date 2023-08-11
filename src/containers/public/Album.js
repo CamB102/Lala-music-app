@@ -5,12 +5,13 @@ import * as apis from '../../apis'
 import moment from 'moment'
 import {Lists} from '../../components'
 import { Scrollbars } from 'react-custom-scrollbars';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import * as actions from '../../store/actions'
 
 const Album = () => {
 
   const {pid} = useParams()
+  const {curSongId, isPlaying, songs} = useSelector(state => state.music)
   const [playlistData, setPlaylistData] = useState({})
   const dispatch = useDispatch()
   
@@ -30,7 +31,15 @@ const Album = () => {
   return (
     <div className='flex gap-8 w-full h-full text-gray-300 px-[59px]' >
       <div className='flex-none w-1/4 flex flex-col items-center gap-3'>
-        <img src={playlistData?.thumbnailM} alt="thumbnail" className='w-full rounded-md hover:scale-105 transition duration-500 cursor-pointer object-contain mt-2'/>
+          <img 
+          src={playlistData?.thumbnailM} 
+          alt="thumbnail" 
+          className={`w-full 
+          ${isPlaying 
+          ? 'rounded-full animate-rotate-center' 
+          : 'rounded-md'} 
+          hover:scale-105 transition duration-500 cursor-pointer object-contain mt-2`}
+          />
         <div className='flex flex-col items-center'>
           <h3 className='text-[20px] font-bold '>{playlistData?.title}</h3>
           <span className='flex flex-column items-center gap-2  text-gray-400 text-xs'>

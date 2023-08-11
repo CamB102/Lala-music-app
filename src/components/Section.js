@@ -1,21 +1,17 @@
 import React, { memo } from 'react'
-import { useSelector, UseSelector } from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 
-const Section = () => {
+const Section = ({dataSection}) => {
 
-    const chill = useSelector(state => state.app)
-    console.log(chill)
     const navigate = useNavigate()
 
   return (
-    <div className='mt-12 px-[59px] text-gray-200 flex flex-col gap-5'>
-        <div className='flex items-center justify-between'>
-            <h3 className='text-[20px] font-bold'>{chill?.chill?.title}</h3>
+    <div className='mt-4 px-[59px] text-gray-200 flex flex-col gap-5'>
+        {/* <div className='flex items-center justify-between'>
             <span className='text-xs '>ALL</span>
-        </div>
+        </div> */}
         <div className='flex items-center justify-center gap-[28px] cursor-pointer'>
-        {chill.chill.items && chill.chill.items.length > 0 && chill.chill.items.map(item => (
+        {dataSection.items && dataSection.items.length > 0 && dataSection.items.map(item => (
             <div
             key={item.encodeId}
             className='flex flex-col gap-2 flex-1'

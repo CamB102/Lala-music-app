@@ -3,7 +3,8 @@ import actionTypes from "../actions/actionTypes";
 
 const initState = {
     banner: [],
-    chill: {}
+    chill: {},
+    happyHit: {},
 }
 //action is the request from view
 const appReducer = (state = initState, action) => {
@@ -12,7 +13,8 @@ const appReducer = (state = initState, action) => {
             return {
                 ...state,
                 banner: action.homeData?.find( item => item.sectionId === 'hSlider')?.items || null,
-                chill: action.homeData?.find( item => item.sectionId === 'hEditorTheme') || {}
+                chill: action.homeData?.find( item => item.sectionId === 'hEditorTheme') || {},
+                happyHit: action.homeData?.find( item => item.sectionId === 'hEditorTheme2') || {}
             }
         default:
             return state
