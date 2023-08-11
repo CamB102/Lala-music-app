@@ -5,30 +5,35 @@ import icons from '../ultis/icons'
 import * as actions from '../store/actions'
 import moment from 'moment'
 import {toast} from 'react-toastify'
+import {LoadingSong} from './'
 
 const {AiFillHeart, AiOutlineHeart, BsThreeDots, CiRepeat, MdSkipPrevious,
-    MdSkipNext, CiShuffle, BsFillPlayFill, BsPauseFill} = icons
+    MdSkipNext, CiShuffle, BsFillPlayFill, BsPauseFill, PiRepeatOnce, BsMusicNoteList,  BiVolumeMute, BiVolumeFull, BiVolumeLow} = icons
 
 var intervalId  
-const Player = () => {
+const Player = ({setIsShowRightSidebar}) => {
   const{curSongId, isPlaying, songs} = useSelector(state => state.music) // key of musicReducer is music
   // when current songId changed, songId will be sent to Redux -> curSongId will be updated, the triger the function in useEffect
   const [songInfo, setSongInfo] = useState(null)
   const [audio, setAudio] = useState(new Audio())
   const [curSeconds, setCurSeconds] = useState(0)
   const [isShuffle, setIsShuffle] = useState(false)
+  const [repeatMode, setRepeatMode] = useState(0)
+  const [isLoadedSource, setIsLoadedSource] = useState(true)
+  const [volume, setVolume] = useState(100)
   const dispatch = useDispatch()
   const thumbRef = useRef()
   const trackRef = useRef()
 
   useEffect(() => {
         const fetchDetailSong = async () => {
+            setIsLoadedSource(false)
             const [res1, res2] = await Promise.all([
                 apis.apiGetDetailSong(curSongId),
                 apis.apiGetSong(curSongId)
             ])
             //console.log(res1.data.err)
-            
+            setIsLoadedSource(true)
             if (res1.data.err === 0) {
                 setSongInfo(res1.data.data)
             }
@@ -39,8 +44,8 @@ const Player = () => {
                 //audio.pause()
                 setAudio(new Audio())
                 dispatch(actions.play(false))
-                toast.warn(res2.data.msg)
-                //toast.warn('To play this song, please sign up!')
+                // toast.warn(res2.data.msg)
+                toast.warn('Sign up to play this song!')
                 setCurSeconds(0)
                 thumbRef.current.style.cssText = `right: 100%`
             }
@@ -67,12 +72,26 @@ const Player = () => {
   }, [audio, isPlaying])
 
   useEffect(() => {
-    if (isShuffle){
+    const handleEnded = () => {
+      if (isShuffle){
+        handleShuffle()
+      } else if (repeatMode){
+        repeatMode === 1 ? handleRepeatOnce() : handleNextSong()
+      } else {
+        audio.pause()
+        dispatch(actions.play(false))
+      }
+    } 
+    audio.addEventListener('ended', handleEnded)
 
-    } else {
-
+    return () => {
+      audio.removeEventListener('ended', handleEnded)
     }
-  }, [isShuffle])
+  }, [audio, isShuffle, repeatMode])
+
+  useEffect(() => {
+    audio.volume = volume / 100
+  }, [volume])
 
   const handleTogglePlayMusic = () => {
       if (isPlaying){
@@ -107,6 +126,10 @@ const Player = () => {
       }
     }
 
+    const handleRepeatOnce = () => {
+      audio.play()
+    }
+
     const handleNextSong = () => {
       if (songs){
         let currentSongIndex
@@ -121,10 +144,8 @@ const Player = () => {
 
     const handleShuffle = () => {
       const randomIndex = Math.round(Math.random() * songs?.length-1)
-      setIsShuffle(prev => !prev)
       dispatch(actions.setCurSongId(songs[randomIndex].encodeId))
       dispatch(actions.play(true))
-
     }
 
 
@@ -148,36 +169,62 @@ const Player = () => {
         <div className='w-[40%] flex-auto flex flex-col gap-2 items-center justify-center py-2'>
           <div className='flex gap-8 justify-center items-center'>
             <span 
-            title='Shuffle' 
-            className={`cursor-pointer ${isShuffle && 'text-main-500'}`}
-            onClick={handleShuffle}>
+              title='Shuffle' 
+              className={`cursor-pointer ${isShuffle ? 'text-main-500' : 'text-gray-200'}`}
+              onClick={() => setIsShuffle(prev => !prev)}>
               <CiShuffle size={24}/>
             </span>
+
             <span 
-            className={`${!songs ? 'text-gray-700' : 'cursor-pointer'}`}
-            onClick={handlePrevSong}><MdSkipPrevious size={24}/></span>
+              className={`${!songs ? 'text-gray-700' : 'cursor-pointer'}`}
+              onClick={handlePrevSong}>
+              <MdSkipPrevious size={24}/>
+            </span>
+
             <span 
-            className='p-1 cursor-pointer hover:text-main-500 rounded-full'
+            className='p-1 cursor-pointer hover:text-main-500 border border-gray-200 rounded-full'
             onClick={handleTogglePlayMusic}
             >
-            {isPlaying ? <BsPauseFill size={30}/> : <BsFillPlayFill size={30} />}
+              {!isLoadedSource ? <LoadingSong/> : isPlaying ? <BsPauseFill size={30}/> : <BsFillPlayFill size={30} />}
+              
             </span>
-            <span onClick={handleNextSong} className={`${!songs ? 'text-gray-700' : 'cursor-pointer'}`}><MdSkipNext size={24}/></span>
-            <span title="Repeat" className='cursor-pointer'><CiRepeat size={24}/></span>
+
+            <span 
+              onClick={handleNextSong} 
+              className={`${!songs ? 'text-gray-700' : 'cursor-pointer'}`}>
+              <MdSkipNext size={24}/>
+            </span>
+
+            <span 
+              title="Repeat" 
+              className={`cursor-pointer ${repeatMode && 'text-main-500'}`}
+              onClick={() => setRepeatMode(prev => prev === 2 ? 0 : prev + 1)}>
+              {repeatMode === 1 ? <PiRepeatOnce size={24}/> : <CiRepeat size={24}/>}
+            </span>
           </div>
           <div className='w-full flex justify-center items-center gap-3 text-xs'>
             <span className=''>{moment.utc(curSeconds*1000).format('mm:ss')}</span>
             <div 
-            className='w-3/5 hover:h-[6px] cursor-pointer h-[3px] rounded-l-full rounded-r-full relative bg-gray-500'
-            onClick={handleProgressBar}
-            ref={trackRef}>
+              className='w-3/5 hover:h-[6px] cursor-pointer h-[3px] rounded-l-full rounded-r-full relative bg-gray-500'
+              onClick={handleProgressBar}
+              ref={trackRef}>
               <div ref={thumbRef} className='absolute top-0 left-0 bottom-0 cursor-pointer bg-main-500 rounded-l-full rounded-r-full'></div>
             </div>
             <span>{moment.utc(songInfo?.duration*1000).format('mm:ss')}</span>
           </div>
         </div>
-        <div className='w-[30%] flex-auto'>
-            {/* Volume */}
+        <div className='w-[30%] flex-auto flex justify-end items-center gap-8'>
+            <div className='flex gap-2 items-center'>
+              <span onClick={() => setVolume(prev => +prev === 0 ? 0 : 70)}>{+volume >= 50 ? <BiVolumeFull size={20}/> : +volume === 0 ? <BiVolumeMute size={20}/> : <BiVolumeLow size={20}/>}</span>
+              <input 
+              type="range" 
+              step={1} min={0} 
+              max={100}
+              value={volume}
+              onChange={(e) => setVolume(e.target.value)}
+            />
+            </div>
+            <span onClick={() => setIsShowRightSidebar(prev => !prev)} className='p-1 rounded-md bg-main-500 opacity-80 hover:opacity-100 cursor-pointer'><BsMusicNoteList size={18}/></span>
         </div>
     </div>
   )

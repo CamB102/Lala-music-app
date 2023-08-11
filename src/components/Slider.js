@@ -62,8 +62,9 @@ const Slider = () => {
 
         return (
         <div className='w-full overflow-auto-hidden px-[59px]'>
-            <div className='flex gap-8 w-full pt-8'>
-        {banner?.map((item, index) => (
+        <span className='text-[22px] text-gray-200 font-semibold'>New Release</span>
+            <div className='flex gap-8 w-full mt-2'>
+            {banner?.map((item, index) => (
             <img
             key={item.encodeId}
             src={item.banner}

@@ -1,5 +1,5 @@
 import React from 'react'
-import logo from '../assests/logo.svg'
+import logo1 from '../assests/logo1.svg'
 import {sidebarMenu} from '../ultis/menu'
 import { NavLink } from 'react-router-dom'
 import {useNavigate} from 'react-router-dom'
@@ -13,10 +13,10 @@ const SidebarLeft = () => {
   return (
     <div className='flex h-full flex-col bg-main-200'>
       <div onClick={() => navigate(path.HOME)} className='w-full h-[70px] py-[15px] px-[25px] flex justify-start items-center cursor-pointer'>
-        <img src={logo} alt="Lala-logo" />
+        <img className='mt-16' src={logo1} alt="Lala-logo" />
         {/* className='w-[128px] h-10' */}
       </div>
-      <div className='flex flex-col'>
+      <div className='flex flex-col mt-10 ml-4'>
         {sidebarMenu.map(item => (
           <NavLink
           to={item.path}
