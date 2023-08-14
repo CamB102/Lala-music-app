@@ -9,7 +9,7 @@ Lala allows users to stream music from a vast collection of songs across differe
 https://github.com/CamB102/Lala-music-app/assets/120146979/89c78252-f381-4dd5-8e9e-dbd3896a3887
 
 ### Features:
-Using API, get data from zing.mp3
+Using API, get data from https://github.com/CamB102/Music-API
 Play a single song or a playlist
 Choose the previous/ next song
 Play Shuffle/ repeat once only/ play only this playlist
