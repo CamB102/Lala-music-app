@@ -62,7 +62,9 @@ const Player = ({setIsShowRightSidebar}) => {
     audio.load()
     audio.currentTime = 0
     if (isPlaying && thumbRef){
-      audio.play()
+      setTimeout(function() {
+      audio.play();
+      }, 150);
       intervalId = setInterval(() => {
         let percent = Math.round(audio.currentTime*10000 / songInfo.duration) / 100
         thumbRef.current.style.cssText = `right: ${100 - percent}%`
