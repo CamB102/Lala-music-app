@@ -1,8 +1,20 @@
 # Lala - Music Web Application
 
 Lala allows users to stream music from a vast collection of songs across different genres. It offers a user-friendly interface with personalized playlists, and charts, and also provides artist information.
+## Video
 
 ## Project Process
+
+
+https://github.com/CamB102/Lala-music-app/assets/120146979/89c78252-f381-4dd5-8e9e-dbd3896a3887
+
+### Features:
+Using API, get data from zing.mp3
+Play a single song or a playlist
+Choose the previous/ next song
+Play Shuffle/ repeat once only/ play only this playlist
+Change volume
+
 
 ### Lala - Search bar & Navigation
 ![Screenshot 2023-08-02 at 1 52 23 pm](https://github.com/CamB102/zing-box-react-project/assets/120146979/5891b13b-3abc-4280-9404-39f3721336d9)
